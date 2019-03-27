@@ -32,10 +32,17 @@
 
 //Reducer function
 function todos(state = [], action) {
-    if(action.type === "ADD_TODO"){
+    if (action.type === "ADD_TODO"){
         return state.concat([action.todo])
+    } else if (action.type === "REMOVE_TODO"){
+        return state.filter((todo) => todo.id !== action.id)
+    } else if (action.type === "TOGGLE_TODO"){
+        return state.map((todo) => todo.id !== action.id ? todo : 
+        Object.assign({}, todo, {complete: !todo.complete})
+        )
+    } else {
+        return state
     }
-    return state
 }
 
 //action is just an object that represents an event that will change the state of our store
