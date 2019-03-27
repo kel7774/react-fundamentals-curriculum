@@ -30,6 +30,13 @@
     id: 0
 }
 
+function todos(state = [], action) {
+    if(action.type === "ADD_TODO"){
+        return state.concat([action.todo])
+    }
+    return state
+}
+
 //action is just an object that represents an event that will change the state of our store
 
 function createStore(){
