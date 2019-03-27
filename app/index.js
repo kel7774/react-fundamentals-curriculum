@@ -1,38 +1,4 @@
-//Reducer function
-function todos(state = [], action) {
-    switch (action.type) {
-        case 'ADD_TODO':
-            return state.concat([action.todo])
-        case "REMOVE_TODO":
-            return state.filter((todo) => todo.id !== action.id)
-        case "TOGGLE_TODO":
-            return state.map((todo) => todo.id !== action.id ? todo : 
-            Object.assign({}, todo, {complete: !todo.complete})
-        )
-    default:
-        return state
-    }
-}
-
-function goals(state = [], action){
-    switch(action.type){
-        case "ADD_GOAL":
-            return state.concat([action.goal])
-        case "REMOVE_GOAL":
-            return state.filter((goal) => goal.id !== action.id)
-        default: state
-    }
-}
-
-function app(state = {}, action){
-    return {
-        todos: todos(state.todos, action),
-        goals: goals(state.goals, action)
-    }
-}
-
-//action is just an object that represents an event that will change the state of our store
-
+//library code
 function createStore(reducer){
     //the store should have 4 parts
     //1. the state
@@ -70,3 +36,44 @@ function createStore(reducer){
         dispatch
     }
 }
+
+const ADD_TODO = "ADD_TODO";
+const REMOVE_TODO = "REMOVE_TODO";
+const TOGGLE_TODO = "TOGGLE_TODO";
+const ADD_GOAL = "ADD_GOAL";
+const REMOVE_GOAL = "REMOVE_GOAL";
+
+//Reducer functions
+function todos(state = [], action) {
+    switch (action.type) {
+        case ADD_TODO:
+            return state.concat([action.todo])
+        case REMOVE_TODO:
+            return state.filter((todo) => todo.id !== action.id)
+        case TOGGLE_TODO:
+            return state.map((todo) => todo.id !== action.id ? todo : 
+            Object.assign({}, todo, {complete: !todo.complete})
+        )
+    default:
+        return state
+    }
+}
+
+function goals(state = [], action){
+    switch(action.type){
+        case ADD_GOAL:
+            return state.concat([action.goal])
+        case REMOVE_GOAL:
+            return state.filter((goal) => goal.id !== action.id)
+        default: state
+    }
+}
+
+function app(state = {}, action){
+    return {
+        todos: todos(state.todos, action),
+        goals: goals(state.goals, action)
+    }
+}
+
+//action is just an object that represents an event that will change the state of our store
