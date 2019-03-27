@@ -43,6 +43,42 @@ const TOGGLE_TODO = "TOGGLE_TODO";
 const ADD_GOAL = "ADD_GOAL";
 const REMOVE_GOAL = "REMOVE_GOAL";
 
+//action creators
+function addTodoAction (todo){
+    return {
+        type: ADD_TODO,
+        todo,
+    }
+}
+
+function removeTodoAction(id){
+    return {
+        type: REMOVE_TODO,
+        id,
+    }
+}
+
+function toggleTodoAction(id){
+    return {
+        type: TOGGLE_TODO,
+        id
+    }
+}
+
+function addGoalAction(goal){
+    return {
+        type: ADD_GOAL,
+        goal
+    }
+}
+
+function removeGoalAction(id){
+    return {
+        type: REMOVE_GOAL,
+        id
+    }
+}
+
 //Reducer functions
 function todos(state = [], action) {
     switch (action.type) {
@@ -77,3 +113,11 @@ function app(state = {}, action){
 }
 
 //action is just an object that represents an event that will change the state of our store
+
+
+const store = createStore();
+
+store.dispatch(addGoalAction({
+    id: 0,
+    name: "Learn Redux"
+}))
