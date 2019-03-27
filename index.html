@@ -21,6 +21,9 @@
 
         <script type="text/javascript">
                         //library code
+                        function generateId () {
+                            return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
+                            }
             function createStore(reducer){
                 //the store should have 4 parts
                 //1. the state
@@ -143,6 +146,37 @@
                 id: 0,
                 name: "Learn Redux"
             }))
+
+            //DOM code
+
+            function addTodo(){
+                    const input = document.getElementById('todo');
+                    const name = input.value;
+                    input.value = ''
+
+                    store.dispatch(addTodoAction({
+                    id: generateId(),
+                    name,
+                    complete: false
+                }))
+            }
+
+            function addGoal(){
+                const input = document.getElementById('goal');
+                const name = input.value;
+                input.value = ''
+
+                    store.dispatch(addGoalAction({
+                    id: generateId(),
+                    name,
+                }))
+            }
+
+            document.getElementById('todoBtn')
+            .addEventListener('click', addTodo)
+
+            document.getElementById('goalBtn')
+            .addEventListener('click',addGoal)
         </script>
     </body>
 </html>
