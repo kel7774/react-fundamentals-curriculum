@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Todos/Goals</title>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js'></script>
     </head>
     <body>
         
@@ -20,48 +21,26 @@
         </div>
 
         <script type="text/javascript">
-                        //library code
-                        function generateId () {
-                            return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
-                            }
-            function createStore(reducer){
-                //the store should have 4 parts
-                //1. the state
-                //2. get state
-                //3. listen to changes on state
-                //4. update state (dispatch)
-                
 
-                let state
-                let listeners = []
+            const store = Redux.createStore(Redux.combineReducers({
+                todos,
+                goals
+            }))
 
-                const getState = () => state
+            store.subscribe(() => {
+                const {goals, todos} = store.getState()
 
-            // listen to changes
-                const subscribe = (listener) => {
-                    listeners.push(listener)
-                    return () => {
-                        listeners = listeners.filter((l) => {
-                            l !== listener
-                        })
-                    }
-                }
+                document.getElementById('goals').innerHTML = ''
+                document.getElementById('todos').innerHTML = ''
 
-                const dispatch = (action) => {
-                    // call todos, will get new state, then be able to update
-                    //loop over & invoke the listeners
-                    state = reducer(state, action)
-                    listeners.forEach((listener) => {
-                        listener()
-                    })
-                }
+                goals.forEach(addGoalToDOM)
+                todos.forEach(addTodoToDOM)
+            })
 
-                return {
-                    getState,
-                    subscribe,
-                    dispatch
-                }
+            function generateId () {
+                return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
             }
+            
 
             const ADD_TODO = "ADD_TODO";
             const REMOVE_TODO = "REMOVE_TODO";
@@ -130,25 +109,6 @@
                     default: state
                 }
             }
-
-            function app(state = {}, action){
-                return {
-                    todos: todos(state.todos, action),
-                    goals: goals(state.goals, action)
-                }
-            }
-
-            const store = createStore(app)
-
-            store.subscribe(() => {
-                const {goals, todos} = store.getState()
-
-                document.getElementById('goals').innerHTML = ''
-                document.getElementById('todos').innerHTML = ''
-
-                goals.forEach(addGoalToDOM)
-                todos.forEach(addTodToDOM)
-            })
 
             //DOM code
             function createRemoveButton(onClick){
