@@ -12,6 +12,7 @@ function createStore(reducer){
 
     const getState = () => state
 
+// listen to changes
     const subscribe = (listener) => {
         listeners.push(listener)
         return () => {
@@ -115,8 +116,7 @@ function app(state = {}, action){
 //action is just an object that represents an event that will change the state of our store
 
 
-const store = createStore();
-
+const store = createStore(app);
 store.dispatch(addGoalAction({
     id: 0,
     name: "Learn Redux"
