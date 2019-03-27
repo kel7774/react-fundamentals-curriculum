@@ -30,6 +30,7 @@
     id: 0
 }
 
+//Reducer function
 function todos(state = [], action) {
     if(action.type === "ADD_TODO"){
         return state.concat([action.todo])
@@ -39,12 +40,12 @@ function todos(state = [], action) {
 
 //action is just an object that represents an event that will change the state of our store
 
-function createStore(){
+function createStore(reducer){
     //the store should have 4 parts
     //1. the state
     //2. get state
     //3. listen to changes on state
-    //4. update state
+    //4. update state (dispatch)
     
 
     let state
@@ -61,8 +62,18 @@ function createStore(){
         }
     }
 
+    const dispatch = (action) => {
+        // call todos, will get new state, then be able to update
+        //loop over & invoke the listeners
+        state = reducer(state, action)
+        listeners.forEach((listener) => {
+            listener()
+        })
+    }
+
     return {
         getState,
-        subscribe
+        subscribe,
+        dispatch
     }
 }
