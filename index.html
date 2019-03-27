@@ -138,15 +138,6 @@
                 }
             }
 
-            //action is just an object that represents an event that will change the state of our store
-
-
-            // const store = createStore(app);
-            // store.dispatch(addGoalAction({
-            //     id: 0,
-            //     name: "Learn Redux"
-            // }))
-
             const store = createStore(app)
 
             store.subscribe(() => {
@@ -159,10 +150,24 @@
                 todos.forEach(addTodToDOM)
             })
 
+            //DOM code
+            function createRemoveButton(onClick){
+                const removeBtn = document.createElement('button');
+                removeBtn.innerHTML = 'x'
+                removeBtn.addEventListener('click', onClick)
+                return removeBtn
+            }
+
             function addTodToDOM(todo){
                 const node = document.createElement('li')
                 const text = document.createTextNode(todo.name)
+
+                const removeBtn = createRemoveButton(() => {
+                    store.dispatch(removeTodoAction(todo.id))
+                })
+
                 node.appendChild(text)
+                node.appendChild(removeBtn)
                 node.style.textDecoration = todo.complete ? 'line-through': 'none'
                 node.addEventListener('click', () => {
                     store.dispatch(toggleTodoAction(todo.id))
@@ -175,13 +180,16 @@
             function addGoalToDOM(goal){
                 const node = document.createElement('li')
                 const text = document.createTextNode(goal.name)
+
+                const removeBtn = createRemoveButton(() => {
+                    store.dispatch(removeGoalAction(goal.id))
+                })
                 node.appendChild(text)
+                node.appendChild(removeBtn)
 
                 document.getElementById('goals')
                 .appendChild(node)
             }
-
-            //DOM code
 
             function addTodo(){
                     const input = document.getElementById('todo');
