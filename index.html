@@ -12,9 +12,11 @@
   <div id='app'></div>
 
   <script type='text/javascript'>
+
     function generateId () {
       return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
     }
+
     // App Code
     const ADD_TODO = 'ADD_TODO'
     const REMOVE_TODO = 'REMOVE_TODO'
@@ -113,9 +115,20 @@
           return state
       }
     }
+
+    function loading (state = true, action){
+        switch(action.type){
+            case RECEIVE_DATA : 
+                return false
+            default : 
+                return state
+        }
+    }
+
     const store = Redux.createStore(Redux.combineReducers({
       todos,
       goals,
+      loading,
     }), Redux.applyMiddleware(checker, logger))
   </script>
 
@@ -218,7 +231,12 @@
       }
       render() {
         const { store } = this.props
-        const { todos, goals } = store.getState()
+        const { todos, goals, loading } = store.getState()
+
+        if(loading === true){
+            return <h3>Loading</h3>
+        }
+        
         return (
           <div>
             <Todos todos={todos} store={store} />
